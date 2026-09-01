@@ -1,6 +1,7 @@
 package com.lsamoyedem.desafio_votacao.controller;
 
 import com.lsamoyedem.desafio_votacao.dto.PautaDTO;
+import com.lsamoyedem.desafio_votacao.dto.PautaResponse;
 import com.lsamoyedem.desafio_votacao.entity.Pauta;
 import com.lsamoyedem.desafio_votacao.service.PautaService;
 import jakarta.validation.Valid;
@@ -24,8 +25,9 @@ public class PautaController {
     }
 
     @PostMapping
-    public Pauta create(@Valid @RequestBody PautaDTO pautaDTO) {
-        return pautaService.create(pautaDTO);
+    public PautaResponse create(@Valid @RequestBody PautaDTO pautaDTO) {
+        Pauta pauta = pautaService.create(pautaDTO);
+        return PautaResponse.from(pauta);
     }
 
     @PutMapping("/{id}")
