@@ -9,7 +9,7 @@ public record SessaoResponse(
         Long pautaId,
         LocalDateTime openAt,
         LocalDateTime closeAt,
-        boolean aberta
+        boolean open
 ) {
     public static SessaoResponse from(Sessao sessao) {
         return new SessaoResponse(

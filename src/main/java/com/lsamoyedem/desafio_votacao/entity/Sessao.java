@@ -1,5 +1,6 @@
 package com.lsamoyedem.desafio_votacao.entity;
 
+import com.lsamoyedem.desafio_votacao.enums.StatusSessao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,5 +37,9 @@ public class Sessao {
 
     public boolean isAberta() {
         return LocalDateTime.now().isBefore(this.closeAt);
+    }
+
+    public StatusSessao getStatusSessao() {
+        return isAberta() ? StatusSessao.ABERTA : StatusSessao.FINALIZADA;
     }
 }

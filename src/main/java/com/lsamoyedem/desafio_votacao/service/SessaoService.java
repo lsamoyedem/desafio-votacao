@@ -1,17 +1,11 @@
 package com.lsamoyedem.desafio_votacao.service;
 
-import com.lsamoyedem.desafio_votacao.dto.SessaoResponse;
 import com.lsamoyedem.desafio_votacao.entity.Pauta;
 import com.lsamoyedem.desafio_votacao.entity.Sessao;
 import com.lsamoyedem.desafio_votacao.exception.BusinessException;
 import com.lsamoyedem.desafio_votacao.exception.ResourceNotFoundException;
-import com.lsamoyedem.desafio_votacao.repository.PautaRepository;
 import com.lsamoyedem.desafio_votacao.repository.SessaoRepository;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
-
-import javax.naming.ContextNotEmptyException;
-import java.util.Optional;
 
 @Service
 public class SessaoService {
@@ -24,7 +18,7 @@ public class SessaoService {
         this.pautaService = pautaService;
     }
 
-    public Sessao getSessaoByPautaId(Long pautaId) {
+    public Sessao findSessaoByPautaId(Long pautaId) {
         return sessaoRepository.findByPautaId(pautaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Sessão ainda não aberta para a pauta: " + pautaId));
     }
