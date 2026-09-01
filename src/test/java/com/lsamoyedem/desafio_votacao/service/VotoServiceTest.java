@@ -1,8 +1,10 @@
 package com.lsamoyedem.desafio_votacao.service;
 
+import com.lsamoyedem.desafio_votacao.client.CpfValidatorClient;
 import com.lsamoyedem.desafio_votacao.entity.Sessao;
 import com.lsamoyedem.desafio_votacao.entity.Voto;
 import com.lsamoyedem.desafio_votacao.enums.OpcaoVoto;
+import com.lsamoyedem.desafio_votacao.enums.StatusCpf;
 import com.lsamoyedem.desafio_votacao.exception.BusinessException;
 import com.lsamoyedem.desafio_votacao.repository.VotoRepository;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,9 @@ class VotoServiceTest {
     @Mock
     private VotoRepository votoRepository;
 
+    @Mock
+    private CpfValidatorClient cpfValidatorClient;
+
     @InjectMocks
     private VotoService votoService;
 
@@ -35,6 +40,7 @@ class VotoServiceTest {
         when(sessao.isAberta()).thenReturn(true);
         when(sessaoService.findSessaoByPautaId(1L)).thenReturn(sessao);
         when(votoRepository.existsBySessaoIdAndCpf(1L, "12345678901")).thenReturn(false);
+        when(cpfValidatorClient.validar(anyString())).thenReturn(StatusCpf.ABLE_TO_VOTE);
         when(votoRepository.save(any(Voto.class))).thenAnswer(inv -> inv.getArgument(0));
 
         Voto resultado = votoService.vote(1L, "123.456.789-01", OpcaoVoto.SIM);
