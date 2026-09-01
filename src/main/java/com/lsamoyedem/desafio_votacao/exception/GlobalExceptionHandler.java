@@ -1,6 +1,7 @@
 package com.lsamoyedem.desafio_votacao.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -39,5 +40,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handle(ResourceNotFoundException ex) {
         var body = Map.of("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<?> handle(DataIntegrityViolationException ex) {
+        var body = Map.of("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
 }
