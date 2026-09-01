@@ -24,7 +24,7 @@ public class SessaoController {
 
     @GetMapping
     public SessaoResponse findSessao(@PathVariable Long pautaId) {
-        Sessao sessao = sessaoService.getSessaoByPautaId(pautaId);
+        Sessao sessao = sessaoService.findSessaoByPautaId(pautaId);
         return SessaoResponse.from(sessao);
     }
 }
