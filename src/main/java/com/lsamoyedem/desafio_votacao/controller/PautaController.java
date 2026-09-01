@@ -31,7 +31,8 @@ public class PautaController {
     }
 
     @PutMapping("/{id}")
-    public Pauta update(@PathVariable Long id, @Valid @RequestBody PautaDTO pautaDTO) {
-        return pautaService.update(id, pautaDTO);
+    public PautaResponse update(@PathVariable Long id, @Valid @RequestBody PautaDTO pautaDTO) {
+        Pauta pauta = pautaService.update(id, pautaDTO);
+        return PautaResponse.from(pauta);
     }
 }
