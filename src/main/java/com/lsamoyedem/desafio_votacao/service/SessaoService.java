@@ -29,6 +29,9 @@ public class SessaoService {
         if (existsSessao) {
             throw new BusinessException("Sessão já criada para a pauta " + pautaId);
         }
+        if (minutes != null && minutes < 1) {
+            throw new BusinessException("Quando informado, os minutos da sessão devem ser maiores que 0");
+        }
         minutes = minutes == null ? 1 : minutes;
         Sessao sessao = new Sessao(pauta, minutes);
         return sessaoRepository.save(sessao);
