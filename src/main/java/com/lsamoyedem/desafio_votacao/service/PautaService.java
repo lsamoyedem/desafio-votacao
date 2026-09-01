@@ -7,7 +7,6 @@ import com.lsamoyedem.desafio_votacao.repository.PautaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PautaService {
@@ -39,10 +38,5 @@ public class PautaService {
         pauta.setTitle(pautaDTO.title());
         pauta.setDescription(pautaDTO.description());
         return pautaRepository.save(pauta);
-    }
-
-    public void delete(Long id) {
-        Pauta pauta = findById(id);
-        pautaRepository.delete(pauta);
     }
 }

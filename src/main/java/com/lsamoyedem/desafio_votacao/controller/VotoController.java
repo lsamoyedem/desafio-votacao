@@ -6,7 +6,6 @@ import com.lsamoyedem.desafio_votacao.dto.VotoResponse;
 import com.lsamoyedem.desafio_votacao.entity.Voto;
 import com.lsamoyedem.desafio_votacao.service.VotoService;
 import jakarta.validation.Valid;
-import org.hibernate.sql.results.jdbc.internal.ResultSetAccess;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

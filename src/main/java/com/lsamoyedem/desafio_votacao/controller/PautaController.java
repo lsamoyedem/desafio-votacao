@@ -19,17 +19,17 @@ public class PautaController {
     }
 
     @GetMapping
-    public List<Pauta> getPauta(){
+    public List<Pauta> getPauta() {
         return pautaService.list();
     }
 
     @PostMapping
-    public Pauta create(@Valid @RequestBody PautaDTO pautaDTO){
+    public Pauta create(@Valid @RequestBody PautaDTO pautaDTO) {
         return pautaService.create(pautaDTO);
     }
 
     @PutMapping("/{id}")
-    public Pauta update(@PathVariable Long id,  @Valid @RequestBody PautaDTO pautaDTO){
+    public Pauta update(@PathVariable Long id, @Valid @RequestBody PautaDTO pautaDTO) {
         return pautaService.update(id, pautaDTO);
     }
 }

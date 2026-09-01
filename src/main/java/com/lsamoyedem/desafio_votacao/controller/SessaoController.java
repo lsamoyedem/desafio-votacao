@@ -17,7 +17,7 @@ public class SessaoController {
 
     @PostMapping
     public SessaoResponse openSessao(@PathVariable Long pautaId,
-                             @RequestParam(required = false) Integer minutes) {
+                                     @RequestParam(required = false) Integer minutes) {
         Sessao sessao = sessaoService.open(pautaId, minutes);
         return SessaoResponse.from(sessao);
     }

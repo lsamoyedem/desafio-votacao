@@ -8,6 +8,6 @@ public interface VotoRepository extends JpaRepository<Voto, Long> {
 
     boolean existsBySessaoIdAndCpf(Long sessaoId, String cpf);
 
-   Long countBySessaoIdAndOpcaoVoto(Long sessaoId, OpcaoVoto opcaoVoto);
+    Long countBySessaoIdAndOpcaoVoto(Long sessaoId, OpcaoVoto opcaoVoto);
 
 }

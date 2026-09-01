@@ -2,9 +2,6 @@ package com.lsamoyedem.desafio_votacao.entity;
 
 import com.lsamoyedem.desafio_votacao.enums.StatusSessao;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +10,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "sessoes")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 public class Sessao {
 

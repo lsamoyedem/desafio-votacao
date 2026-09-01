@@ -3,7 +3,6 @@ package com.lsamoyedem.desafio_votacao.entity;
 import com.lsamoyedem.desafio_votacao.enums.OpcaoVoto;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -12,7 +11,8 @@ import java.time.LocalDateTime;
 @Table(name = "votos", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"sessao_id", "cpf"})
 })
-@Getter @Setter
+@Getter
+@Setter
 public class Voto {
 
     @Id

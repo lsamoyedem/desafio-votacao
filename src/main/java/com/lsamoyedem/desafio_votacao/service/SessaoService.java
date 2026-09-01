@@ -13,7 +13,7 @@ public class SessaoService {
     private final SessaoRepository sessaoRepository;
     private final PautaService pautaService;
 
-    public SessaoService (SessaoRepository sessaoRepository, PautaService pautaService) {
+    public SessaoService(SessaoRepository sessaoRepository, PautaService pautaService) {
         this.sessaoRepository = sessaoRepository;
         this.pautaService = pautaService;
     }

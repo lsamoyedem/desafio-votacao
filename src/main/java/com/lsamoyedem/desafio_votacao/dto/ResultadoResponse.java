@@ -10,4 +10,5 @@ public record ResultadoResponse(
         long totalVotos,
         StatusSessao statusSessao,
         ResultadoVotacao resultadoVotacao
-) {}
+) {
+}

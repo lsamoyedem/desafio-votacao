@@ -1,6 +1,5 @@
 package com.lsamoyedem.desafio_votacao.dto;
 
-import com.lsamoyedem.desafio_votacao.entity.Sessao;
 import com.lsamoyedem.desafio_votacao.entity.Voto;
 import com.lsamoyedem.desafio_votacao.enums.OpcaoVoto;
 

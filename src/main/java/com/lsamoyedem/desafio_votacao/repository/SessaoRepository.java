@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface SessaoRepository extends JpaRepository<Sessao, Long> {
 
     boolean existsByPautaId(Long pautaId);
+
     Optional<Sessao> findByPautaId(Long pautaId);
 }
