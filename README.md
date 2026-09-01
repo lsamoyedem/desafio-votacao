@@ -1,117 +1,154 @@
-# Votação
+# Desafio Votação
 
-## Objetivo
+API REST para gerenciar sessões de votação em assembleias de cooperativas. Permite cadastrar pautas, abrir sessões de votação por tempo determinado, receber votos (Sim/Não) e apurar o resultado.
 
-No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. Imagine que você deve criar uma solução para dispositivos móveis para gerenciar e participar dessas sessões de votação.
-Essa solução deve ser executada na nuvem e promover as seguintes funcionalidades através de uma API REST:
+## Tecnologias
 
-- Cadastrar uma nova pauta
-- Abrir uma sessão de votação em uma pauta (a sessão de votação deve ficar aberta por
-  um tempo determinado na chamada de abertura ou 1 minuto por default)
-- Receber votos dos associados em pautas (os votos são apenas 'Sim'/'Não'. Cada associado
-  é identificado por um id único e pode votar apenas uma vez por pauta)
-- Contabilizar os votos e dar o resultado da votação na pauta
+- **Java 21**
+- **Spring Boot 3.x** (Spring Web, Spring Data JPA, Validation)
+- **H2** em modo arquivo (persistência sem dependência externa)
+- **Maven** (com wrapper incluído)
+- **Lombok**
+- **JUnit 5 + Mockito** (testes)
 
-Para fins de exercício, a segurança das interfaces pode ser abstraída e qualquer chamada para as interfaces pode ser considerada como autorizada. A solução deve ser construída em java, usando Spring-boot, mas os frameworks e bibliotecas são de livre escolha (desde que não infrinja direitos de uso).
+## Pré-requisitos
 
-É importante que as pautas e os votos sejam persistidos e que não sejam perdidos com o restart da aplicação.
+- **Java 21** instalado (`java -version` deve indicar 21)
+- Não é necessário instalar Maven — o projeto inclui o Maven Wrapper (`mvnw`)
+- Não é necessário banco de dados externo — o H2 grava em arquivo local
 
-O foco dessa avaliação é a comunicação entre o backend e o aplicativo mobile. Essa comunicação é feita através de mensagens no formato JSON, onde essas mensagens serão interpretadas pelo cliente para montar as telas onde o usuário vai interagir com o sistema. A aplicação cliente não faz parte da avaliação, apenas os componentes do servidor. O formato padrão dessas mensagens será detalhado no anexo 1.
+## Como executar
 
-## Como proceder
+Na raiz do projeto:
 
-Por favor, **CLONE** o repositório e implemente sua solução, ao final, notifique a conclusão e envie o link do seu repositório clonado no GitHub, para que possamos analisar o código implementado.
+```bash
+# Linux/Mac
+./mvnw spring-boot:run
 
-Lembre de deixar todas as orientações necessárias para executar o seu código.
-
-### Tarefas bônus
-
-- Tarefa Bônus 1 - Integração com sistemas externos
-  - Criar uma Facade/Client Fake que retorna aleátoriamente se um CPF recebido é válido ou não.
-  - Caso o CPF seja inválido, a API retornará o HTTP Status 404 (Not found). Você pode usar geradores de CPF para gerar CPFs válidos
-  - Caso o CPF seja válido, a API retornará se o usuário pode (ABLE_TO_VOTE) ou não pode (UNABLE_TO_VOTE) executar a operação. Essa operação retorna resultados aleatórios, portanto um mesmo CPF pode funcionar em um teste e não funcionar no outro.
-
-```
-// CPF Ok para votar
-{
-    "status": "ABLE_TO_VOTE
-}
-// CPF Nao Ok para votar - retornar 404 no client tb
-{
-    "status": "UNABLE_TO_VOTE
-}
+# Windows
+mvnw.cmd spring-boot:run
 ```
 
-Exemplos de retorno do serviço
+A aplicação sobe em `http://localhost:8080`.
 
-### Tarefa Bônus 2 - Performance
+Alternativamente, para gerar o `.jar` e executar:
 
-- Imagine que sua aplicação possa ser usada em cenários que existam centenas de
-  milhares de votos. Ela deve se comportar de maneira performática nesses
-  cenários
-- Testes de performance são uma boa maneira de garantir e observar como sua
-  aplicação se comporta
-
-### Tarefa Bônus 3 - Versionamento da API
-
-○ Como você versionaria a API da sua aplicação? Que estratégia usar?
-
-## O que será analisado
-
-- Simplicidade no design da solução (evitar over engineering)
-- Organização do código
-- Arquitetura do projeto
-- Boas práticas de programação (manutenibilidade, legibilidade etc)
-- Possíveis bugs
-- Tratamento de erros e exceções
-- Explicação breve do porquê das escolhas tomadas durante o desenvolvimento da solução
-- Uso de testes automatizados e ferramentas de qualidade
-- Limpeza do código
-- Documentação do código e da API
-- Logs da aplicação
-- Mensagens e organização dos commits
-
-## Dicas
-
-- Teste bem sua solução, evite bugs
-- Deixe o domínio das URLs de callback passiveis de alteração via configuração, para facilitar
-  o teste tanto no emulador, quanto em dispositivos fisicos.
-  Observações importantes
-- Não inicie o teste sem sanar todas as dúvidas
-- Iremos executar a aplicação para testá-la, cuide com qualquer dependência externa e
-  deixe claro caso haja instruções especiais para execução do mesmo
-  Classificação da informação: Uso Interno
-
-## Anexo 1
-
-### Introdução
-
-A seguir serão detalhados os tipos de tela que o cliente mobile suporta, assim como os tipos de campos disponíveis para a interação do usuário.
-
-### Tipo de tela – FORMULARIO
-
-A tela do tipo FORMULARIO exibe uma coleção de campos (itens) e possui um ou dois botões de ação na parte inferior.
-
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada botão quando o mesmo é acionado. Nos casos onde temos campos de entrada
-de dados na tela, os valores informados pelo usuário são adicionados ao corpo da requisição. Abaixo o exemplo da requisição que o aplicativo vai fazer quando o botão “Ação 1” for acionado:
-
+```bash
+./mvnw clean package
+java -jar target/desafio-votacao-0.0.1-SNAPSHOT.jar
 ```
-POST http://seudominio.com/ACAO1
+
+## Como rodar os testes
+
+```bash
+./mvnw test
+```
+
+## Persistência
+
+O banco H2 grava em arquivo (`./data/votacao`), então **os dados sobrevivem ao restart** da aplicação, conforme exigido.
+
+### Console do H2
+
+Com a aplicação rodando, acesse `http://localhost:8080/h2-console` e use:
+
+- **JDBC URL:** `jdbc:h2:file:./data/votacao`
+- **User:** `sa`
+- **Password:** (em branco)
+
+## Endpoints da API
+
+Todas as rotas usam o prefixo de versão `/v1`.
+
+### Pautas
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| `POST` | `/v1/pautas` | Cadastra uma nova pauta |
+| `GET` | `/v1/pautas` | Lista as pautas |
+| `PUT` | `/v1/pautas/{id}` | Atualiza uma pauta |
+
+Exemplo de corpo (POST):
+
+```json
 {
-    “campo1”: “valor1”,
-    “campo2”: 123,
-    “idCampoTexto”: “Texto”,
-    “idCampoNumerico: 999
-    “idCampoData”: “01/01/2000”
+  "title": "Aprovação do orçamento 2026",
+  "description": "Votação sobre o orçamento anual"
 }
 ```
 
-Obs: o formato da url acima é meramente ilustrativo e não define qualquer padrão de formato.
+### Sessões
 
-### Tipo de tela – SELECAO
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| `POST` | `/v1/pautas/{pautaId}/sessoes` | Abre uma sessão de votação para a pauta |
+| `GET` | `/v1/pautas/{pautaId}/sessoes` | Consulta a sessão da pauta |
 
-A tela do tipo SELECAO exibe uma lista de opções para que o usuário.
+A duração é opcional via query param `minutes`. Se omitida, o padrão é **1 minuto**:
 
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada item da lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos botões da tela FORMULARIO.
+```
+POST /v1/pautas/1/sessoes          # sessão de 1 minuto (default)
+POST /v1/pautas/1/sessoes?minutes=5 # sessão de 5 minutos
+```
 
-# desafio-votacao
+### Votos
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| `POST` | `/v1/pautas/{pautaId}/votos` | Registra um voto na pauta |
+
+Exemplo de corpo:
+
+```json
+{
+  "cpf": "123.456.789-01",
+  "opcaoVoto": "SIM"
+}
+```
+
+Opções válidas: `SIM`, `NAO`.
+
+### Resultado
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| `GET` | `/v1/pautas/{pautaId}/votos/resultado` | Apura e retorna o resultado da votação |
+
+Exemplo de resposta:
+
+```json
+{
+  "pautaId": 1,
+  "totalSim": 42,
+  "totalNao": 17,
+  "totalVotos": 59,
+  "statusSessao": "FINALIZADA",
+  "resultadoVotacao": "APROVADA"
+}
+```
+
+## Decisões de arquitetura
+
+- **Organização em camadas** (`controller`, `service`, `repository`, `entity`, `dto`, `enums`, `exception`): separação clara de responsabilidades, mantendo o controller fino e a regra de negócio no service.
+- **DTOs de entrada e saída**: as entidades JPA nunca são expostas diretamente na API.
+- **H2 em modo arquivo**: escolhido para atender o requisito de persistência sem exigir que o avaliador suba um banco externo. A troca por PostgreSQL em produção seria apenas configuração, graças ao JPA. Em produção, o `ddl-auto` seria substituído por migrations (Flyway/Liquibase).
+- **Tratamento de erros centralizado**: um `@RestControllerAdvice` traduz exceções de negócio em respostas HTTP consistentes (404 para recurso não encontrado, 409 para violação de regra de negócio, 400 para validação).
+
+## Regras de negócio
+
+- Uma pauta pode ter **uma única sessão** de votação.
+- Uma sessão fica aberta pelo tempo definido na abertura (ou 1 minuto por padrão).
+- Um associado (identificado por CPF) vota **apenas uma vez** por pauta.
+- Só é possível votar em uma sessão **aberta**.
+- O resultado pode ser consultado a qualquer momento; enquanto a sessão está aberta, reflete a contagem parcial (indicada pelo campo `statusSessao`).
+
+## Versionamento da API (Tarefa Bônus 3)
+
+A API é versionada por **URI** (prefixo `/v1` nas rotas). Optei por essa estratégia por ser a mais simples, explícita e legível — a versão fica visível na própria URL, facilitando testes e evitando ambiguidade. Para evoluções incompatíveis, uma nova versão (`/v2`) conviveria com a anterior sem quebrar clientes existentes.
+
+## Testes automatizados
+
+Os testes cobrem a camada de serviço (regra de negócio), usando JUnit 5 e Mockito para isolar as dependências:
+
+- `PautaServiceTest`: CRUD de pautas, incluindo o caminho de recurso não encontrado.
+- `VotoServiceTest`: registro de voto e as validações de negócio (sessão fechada, voto duplicado).
