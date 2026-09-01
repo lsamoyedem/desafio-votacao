@@ -20,8 +20,10 @@ public class PautaController {
     }
 
     @GetMapping
-    public List<Pauta> getPauta() {
-        return pautaService.list();
+    public List<PautaResponse> getPauta() {
+        return pautaService.list().stream()
+                .map(PautaResponse::from)
+                .toList();
     }
 
     @PostMapping
