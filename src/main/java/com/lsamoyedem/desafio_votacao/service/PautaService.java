@@ -2,8 +2,8 @@ package com.lsamoyedem.desafio_votacao.service;
 
 import com.lsamoyedem.desafio_votacao.dto.PautaDTO;
 import com.lsamoyedem.desafio_votacao.entity.Pauta;
+import com.lsamoyedem.desafio_votacao.exception.ResourceNotFoundException;
 import com.lsamoyedem.desafio_votacao.repository.PautaRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class PautaService {
 
     public Pauta findById(Long id) {
         return pautaRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Pauta " + id + " não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Pauta " + id + " não encontrada"));
     }
 
     public List<Pauta> list() {
